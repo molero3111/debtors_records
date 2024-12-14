@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Debtor;
+use App\Models\Entity;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -73,7 +75,7 @@ class DataMigrationService
         return ['debtors' => $debtors, 'entities' => $entities];
     }
 
-     /**
+    /**
      * Migrates the processed data to the MongoDB database.
      */
     public function migrateToDB()
@@ -82,5 +84,14 @@ class DataMigrationService
 
         DB::connection('mongodb')->table('debtors')->insert(array_values($result['debtors']));
         DB::connection('mongodb')->table('entities')->insert(array_values($result['entities']));
+    }
+
+    /**
+     * Deletes all documents in debtors and entities collections.
+     */
+    public static function removeDebtorsAndEntities()
+    {
+        Debtor::truncate();
+        Entity::truncate();
     }
 }

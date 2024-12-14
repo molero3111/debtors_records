@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Debtor;
+use App\Models\Entity;
 use App\Services\DataMigrationService;
 
 /**
@@ -22,5 +24,12 @@ class MigrationController extends Controller
         $dataMigrationService->migrateToDB();
 
         return response()->json(['message' => 'Data migration completed']);
+    }
+
+    public function cleanDatabase()
+    {
+        DataMigrationService::removeDebtorsAndEntities();
+
+        return response()->json(['message' => 'Database cleaned successfully']);
     }
 }

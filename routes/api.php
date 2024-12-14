@@ -7,7 +7,9 @@ use App\Models\Debtor;
 
 Route::post('/migratedata', [MigrationController::class, 'migrate']);
 
+Route::delete('/cleandb', [MigrationController::class, 'cleanDatabase']);
+
 Route::get('/debtors', function (Request $request) {
-    $debtors = Debtor::all();
-    return response()->json(['debtors' => $debtors]);
+    return response()->json(['debtors' => Debtor::all()]);
 });
+
