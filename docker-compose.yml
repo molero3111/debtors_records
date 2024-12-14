@@ -15,7 +15,24 @@ services:
       - .env
     command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
     networks:
-    - app-network
+      - app-network
+
+  queue-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: queue-worker
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - debtors-api
+      - mongodb
+      - redis
+    env_file:
+      - .env
+    command: ["sh", "-c", "./wait_for_mongo.sh"]
+    networks:
+      - app-network
 
   mongodb:
     image: mongo:6.0

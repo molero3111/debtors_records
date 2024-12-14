@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\MigrateDataJob;
 use App\Models\Debtor;
 use App\Models\Entity;
 use App\Services\DataMigrationService;
@@ -20,10 +21,9 @@ class MigrationController extends Controller
      */
     public function migrate()
     {
-        $dataMigrationService = new DataMigrationService(base_path('deudores.txt'));
-        $dataMigrationService->migrateToDB();
+        MigrateDataJob::dispatch(base_path('deudores.txt'));
 
-        return response()->json(['message' => 'Data migration completed']);
+        return response()->json(['message' => 'Data migration in progress']);
     }
 
     public function cleanDatabase()
