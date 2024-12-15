@@ -41,5 +41,8 @@ RUN composer install
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Makes wait_for_mongo.sh executable
+RUN chmod +x /var/www/html/wait_for_mongo.sh
+
 # Expose port 8000 for Laravel development server
 EXPOSE 8000
